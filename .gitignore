@@ -1,0 +1,41 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Environments
+.env
+*.env
+.venv
+*.venv
+env/
+venv/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.iml
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# MongoDB dumps (if you ever export/import)
+dump/
+*.bson
+*.json
