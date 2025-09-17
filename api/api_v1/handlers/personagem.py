@@ -1,51 +1,30 @@
-from fastapi import APIRouter, HTTPException, status
-from beanie import PydanticObjectId
+from typing import List
+from fastapi import APIRouter, Depends
+from models.user_model import User
 from models.personagem_model import Personagem
-from schemas.personagem_schema import PersonagemAuth
+from schemas.personagem_schema import PersonagemCreate, PersonagemUpdate, PersonagemDetail
+from services.personagem_service import PersonagemService
+from api.dependencies.user_deps import get_current_user
+from uuid import UUID
 
 personagem_router = APIRouter()
 
-@personagem_router.get("/", summary="Lista todos os personagens")
-async def lista_personagens():
-    personagens = await Personagem.find_all().to_list()
-    return personagens
+@personagem_router.get("/", summary="Lista todos os personagens", response_model=List[PersonagemDetail])
+async def list_personagem(current_user: User = Depends(get_current_user)):
+    return await PersonagemService.list_personagem(current_user)
 
-@personagem_router.get("/{personagem_id}", summary="Busca por personagem com ID específico")
-async def busca_personagem_id(personagem_id: PydanticObjectId):
-    personagem = await Personagem.get(personagem_id)
-    if not personagem:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Personagem não encontrado"
-        )
-    return personagem
+@personagem_router.post("/", summary="Cadastra um novo personagem", response_model=Personagem)
+async def create_personagem(data: PersonagemCreate, current_user: User = Depends(get_current_user)):
+    return await PersonagemService.create_personagem(current_user, data)
 
-@personagem_router.post("/", summary="Cadastra um novo personagem")
-async def cadastra_personagens(personagem: PersonagemAuth):
-    novo_personagem = Personagem(**personagem.model_dump())
-    await novo_personagem.insert()
-    return novo_personagem
+@personagem_router.get("/{personagem_id}", summary="Detalha personagem com ID específico", response_model=PersonagemDetail)
+async def detail_personagem(personagem_id: UUID, current_user: User = Depends(get_current_user)):
+    return await PersonagemService.detail_personagem(current_user, personagem_id)
 
-@personagem_router.put("/{personagem_id}", summary="Atualiza personagem com ID específico")
-async def atualiza_personagem(personagem_id: PydanticObjectId, personagem: PersonagemAuth):
-    personagem_existente = await Personagem.get(personagem_id)
-    if not personagem_existente:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Personagem não encontrado"
-        )
+@personagem_router.put("/{personagem_id}", summary="Atualiza personagem com ID específico", response_model=PersonagemDetail)
+async def update_personagem(personagem_id: UUID, data: PersonagemUpdate, current_user: User = Depends(get_current_user)):
+    return await PersonagemService.update_personagem(current_user, personagem_id, data)
 
-    await personagem_existente.set(personagem.dict())
-    return personagem_existente
-
-@personagem_router.delete("/{personagem_id}", summary="Exclui personagem com ID específico")
-async def exclui_personagem(personagem_id: PydanticObjectId):
-    personagem = await Personagem.get(personagem_id)
-    if not personagem:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Personagem não encontrado"
-        )
-
-    await personagem.delete()
-    return personagem
+@personagem_router.delete("/{personagem_id}", summary="Exclui personagem com ID específico", response_model=PersonagemDetail)
+async def update_personagem(personagem_id: UUID, current_user: User = Depends(get_current_user)):
+    return await PersonagemService.delete_personagem(current_user, personagem_id)

@@ -4,7 +4,6 @@ from fastapi import Depends, HTTPException, status
 from models.user_model import User
 from jose import jwt
 from schemas.auth_schema import TokenPayload
-from datetime import datetime
 from pydantic import ValidationError
 from services.user_service import UserService
 
@@ -21,12 +20,6 @@ async def get_current_user(token: str = Depends(oauth_reusavel)) -> User:
             settings.ALGORITHM
         )
         token_data = TokenPayload(**payload)
-        if datetime.fromtimestamp(token_data.exp) < datetime.now():
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token expirado",
-                headers={"WWW-Authenticate": "Bearer"}
-            )
     except(jwt.JWTError, ValidationError):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -35,7 +28,7 @@ async def get_current_user(token: str = Depends(oauth_reusavel)) -> User:
         )
     user = await UserService.get_user_by_id(token_data.sub)
 
-    if not User:
+    if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Não foi possível encontrar o usuário",

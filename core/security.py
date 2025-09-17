@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 from typing import Union, Any
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from jose import jwt
 from core.config import settings
 
@@ -17,9 +17,9 @@ def verify_password(password: str, hashed_password: str) -> bool:
 
 def create_access_token(subject: Union[str, Any], expires_delta: int = None) -> str:
     if expires_delta is not None:
-        expires_delta = datetime.now() + expires_delta
+        expires_delta = datetime.now(timezone.utc) + expires_delta
     else:
-        expires_delta = datetime.now() + timedelta(
+        expires_delta = datetime.now(timezone.utc) + timedelta(
             minutes=settings.ACESS_TOKEN_EXPIRE_MINUTES
         )
     info_jwt = {
@@ -37,9 +37,9 @@ def create_access_token(subject: Union[str, Any], expires_delta: int = None) -> 
 
 def create_refresh_token(subject: Union[str, Any], expires_delta: int = None) -> str:
     if expires_delta is not None:
-        expires_delta = datetime.now() + expires_delta
+        expires_delta = datetime.now(timezone.utc) + expires_delta
     else:
-        expires_delta = datetime.now() + timedelta(
+        expires_delta = datetime.now(timezone.utc) + timedelta(
             minutes=settings.ACESS_TOKEN_EXPIRE_MINUTES
         )
     info_jwt = {

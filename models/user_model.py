@@ -9,7 +9,7 @@ class User(Document):
     username: Annotated[str, Indexed(str, unique=True)]
     email: Annotated[str, Indexed(EmailStr, unique=True)]
     hashed_password: str
-    disabled: Optional[bool] = None
+    disabled: bool = False
 
     def __repr__(self) -> str:
         return f"<User {self.email}>"
