@@ -11,9 +11,9 @@ class Personagem(Document):
     classe: str
     raca: str
     pv_max: int
-    pv_num: int | None = None
+    pv_num: Optional[int] = None
     pe_max: int
-    pe_num: int | None = None
+    pe_num: Optional[int] = None
     gold: int
     disabled: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

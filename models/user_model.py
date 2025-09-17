@@ -1,7 +1,7 @@
 from beanie import Document, Indexed
 from uuid import UUID, uuid4
 from pydantic import Field, EmailStr
-from typing import Annotated, Optional
+from typing import Annotated
 from datetime import datetime
 
 class User(Document):
