@@ -11,4 +11,4 @@ class UserDetail(BaseModel):
     user_id: UUID
     username: str
     email: EmailStr
-    disabled: Optional[bool]
+    is_verified: Optional[bool]

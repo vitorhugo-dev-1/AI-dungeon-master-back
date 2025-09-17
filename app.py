@@ -6,6 +6,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi.middleware.cors import CORSMiddleware
 
 from core.config import settings
+from api.api_v1.handlers.root import root_router
 from api.api_v1.router import router
 
 from models.user_model import User
@@ -41,6 +42,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+app.include_router(root_router)
 app.include_router(
     router, 
     prefix=settings.API_V1_STR

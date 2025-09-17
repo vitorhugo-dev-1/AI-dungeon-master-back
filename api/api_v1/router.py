@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from api.api_v1.handlers import root
 from api.api_v1.handlers import user
 from api.api_v1.handlers import personagem
 from api.auth.jwt import auth_router
