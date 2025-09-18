@@ -42,7 +42,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-app.include_router(root_router)
+app.include_router(root_router, tags=['root'])
 app.include_router(
     router, 
     prefix=settings.API_V1_STR

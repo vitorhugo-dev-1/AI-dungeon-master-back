@@ -22,9 +22,9 @@ async def login(data: OAuth2PasswordRequestForm = Depends()) -> Any:
     if not usuario:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail='E-mail ou senha estão incorretos'
+            detail='E-mail ou senha estão incorretos. Certifique-se de que sua conta está ativa'
         )
-    
+
     return {
         "access_token" : create_access_token(usuario.user_id),
         "refresh_token": create_refresh_token(usuario.user_id)
@@ -57,7 +57,7 @@ async def refresh_token(refresh_token: str = Body(...)):
             detail = 'Não foi possível encontrar o usuário',
             headers = {'WWW-Authenticate': 'Bearer'}
         )
-    
+
     return {
         "access_token": create_access_token(user.user_id),
         "refresh_token": create_refresh_token(user.user_id)
