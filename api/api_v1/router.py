@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from api.api_v1.handlers import root
 from api.api_v1.handlers import user
 from api.api_v1.handlers import personagem
+from api.api_v1.handlers import llm
 from api.auth.jwt import auth_router
 
 router = APIRouter()
@@ -20,4 +20,9 @@ router.include_router(
     personagem.personagem_router,
     prefix='/personagem',
     tags=['personagem']
+)
+router.include_router(
+    llm.llm_router,
+    prefix='/llm',
+    tags=['llm']
 )

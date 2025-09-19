@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 
 root_router = APIRouter()
 
-@root_router.get("/")
+@root_router.get("/", summary='Status da API')
 def read_root():
     return {"status": "ok", "message": "API is running"}
 

@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     ]
     PROJECT_NAME: str = "DungeonMind"
     MONGO_CONNECTION_STRING: str = config("MONGO_CONNECTION_STRING", cast=str)
+    GROQ_API_KEY: str = config("GROQ_API_KEY", cast=str)
 
     # Email settings
     EMAIL: object = ConnectionConfig(
