@@ -1,5 +1,5 @@
 from models.user_model import User
-from models.personagem_model import Personagem
+from models.personagem_model import Personagem, Stats
 from typing import List
 from schemas.personagem_schema import PersonagemCreate, PersonagemUpdate
 from uuid import UUID
@@ -12,7 +12,11 @@ class PersonagemService:
 
     @staticmethod
     async def create_personagem(user: User, data: PersonagemCreate) -> Personagem:
-        personagem = Personagem(**data.model_dump(), owner=user)
+        personagem = Personagem(
+            **data.model_dump(exclude={"stats"}),
+            stats=Stats.from_atributos(data.atr).model_dump(),
+            owner=user,
+        )
         return await personagem.insert()
 
     @staticmethod

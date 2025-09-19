@@ -1,20 +1,47 @@
 from beanie import Document, Indexed, Link, before_event, Replace, Insert
 from uuid import UUID, uuid4
-from pydantic import Field, model_validator
-from typing import Annotated, Optional
+from pydantic import BaseModel, Field
+from typing import Annotated
 from datetime import datetime, timezone
-from .user_model import User
+from models.user_model import User
+
+class Atributos(BaseModel):
+    STR: int
+    AGI: int
+    RES: int
+    INT: int
+    PER: int
+    DET: int
+
+class Stats(BaseModel):
+    pv_max: int
+    pe_max: int
+    pv: int
+    pe: int
+    gold: int
+
+    @classmethod
+    def from_atributos(cls, atr: Atributos) -> "Stats":
+        calc_pv_max = 10 + atr.RES * 4 + atr.STR
+        calc_pe_max = 5 + atr.RES * 2 + atr.AGI
+        return cls(
+            pv_max=calc_pv_max,
+            pe_max=calc_pe_max,
+            pv=calc_pv_max,
+            pe=calc_pe_max,
+            gold=50
+        )
 
 class Personagem(Document):
     personagem_id: UUID = Field(default_factory=uuid4, unique=True)
     nome: Annotated[str, Indexed(str)]
     classe: str
     raca: str
-    pv_max: int
-    pv_num: Optional[int] = None
-    pe_max: int
-    pe_num: Optional[int] = None
-    gold: int
+    origens: str
+    level: int = 1
+    xp: int = 0
+    atr: Atributos
+    stats: Stats
     disabled: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -33,14 +60,6 @@ class Personagem(Document):
         if isinstance(other, Personagem):
             return self.personagem_id == other.personagem_id
         return False
-
-    @model_validator(mode="after")
-    def set_starting_values(self):
-        if self.pv_num is None or self.pv_num > self.pv_max:
-            self.pv_num = self.pv_max
-        if self.pe_num is None or self.pe_num > self.pe_max:
-            self.pe_num = self.pe_max
-        return self
 
     @before_event([Replace, Insert])
     def sync_update_at(self):
