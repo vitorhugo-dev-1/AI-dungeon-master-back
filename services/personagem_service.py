@@ -13,8 +13,8 @@ class PersonagemService:
     @staticmethod
     async def create_personagem(user: User, data: PersonagemCreate) -> Personagem:
         personagem = Personagem(
-            **data.model_dump(exclude={"stats"}),
-            stats=Stats.from_atributos(data.atr).model_dump(),
+            **data.model_dump(),
+            stats=Stats.from_atributos(data.atr),
             itens=[],
             owner=user,
         )
