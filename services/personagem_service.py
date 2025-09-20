@@ -15,6 +15,7 @@ class PersonagemService:
         personagem = Personagem(
             **data.model_dump(exclude={"stats"}),
             stats=Stats.from_atributos(data.atr).model_dump(),
+            itens=[],
             owner=user,
         )
         return await personagem.insert()

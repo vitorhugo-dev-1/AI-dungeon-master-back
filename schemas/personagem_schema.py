@@ -34,6 +34,7 @@ class PersonagemUpdate(BaseModel):
     origens: Optional[str] = None
     atr:     Optional[AtributosUpdate] = None
     stats:   Optional[Stats] = None
+    itens:   Optional[list[str]] = None
 
 class PersonagemDetail(BaseModel):
     personagem_id: UUID
@@ -44,6 +45,7 @@ class PersonagemDetail(BaseModel):
     xp:     int
     atr:    Atributos
     stats:  Stats
+    itens:  list[str]
     disabled: bool
     created_at: datetime
     updated_at: datetime

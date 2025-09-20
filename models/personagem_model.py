@@ -42,6 +42,7 @@ class Personagem(Document):
     xp: int = 0
     atr: Atributos
     stats: Stats
+    itens: list[str]
     disabled: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
