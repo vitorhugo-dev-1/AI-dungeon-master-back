@@ -49,14 +49,14 @@ class Personagem(Document):
     owner: Link[User]
 
     def __repr__(self) -> str:
-        return f"<Personagem f{self.nome}>"
-    
+        return f"<Personagem {self.nome}>"
+
     def __str__(self) -> str:
         return self.nome
-    
+
     def __hash__(self) -> int:
         return hash(self.nome)
-    
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Personagem):
             return self.personagem_id == other.personagem_id

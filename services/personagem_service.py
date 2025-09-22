@@ -1,3 +1,4 @@
+from fastapi import HTTPException, status
 from models.user_model import User
 from models.personagem_model import Personagem, Stats
 from typing import List
@@ -38,7 +39,10 @@ class PersonagemService:
     async def delete_personagem(user: User, personagem_id: UUID):
         personagem = await PersonagemService.detail_personagem(user, personagem_id)
         if not personagem:
-            return None
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Personagem não encontrado."
+            )
         deleted_personagem = personagem
         await personagem.delete()
         return deleted_personagem

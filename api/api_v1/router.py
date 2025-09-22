@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from api.api_v1.handlers import user
 from api.api_v1.handlers import personagem
+from api.api_v1.handlers import campanha
 from api.api_v1.handlers import llm
 from api.auth.jwt import auth_router
 
@@ -20,6 +21,11 @@ router.include_router(
     personagem.personagem_router,
     prefix='/personagem',
     tags=['personagem']
+)
+router.include_router(
+    campanha.campanha_router,
+    prefix='/campanha',
+    tags=['campanha']
 )
 router.include_router(
     llm.llm_router,

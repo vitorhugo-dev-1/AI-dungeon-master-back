@@ -11,6 +11,7 @@ from api.api_v1.router import router
 
 from models.user_model import User
 from models.personagem_model import Personagem
+from models.campanha_model import Campanha
 
 async def lifespan(app: FastAPI):
     client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
@@ -20,7 +21,8 @@ async def lifespan(app: FastAPI):
         database=db,
         document_models=[
             User,
-            Personagem
+            Personagem,
+            Campanha
         ],
     )
 
