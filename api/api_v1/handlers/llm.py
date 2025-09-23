@@ -11,5 +11,5 @@ class PromptRequest(BaseModel):
     prompt: str
 
 @llm_router.post("/chat/")
-async def chat(request: PromptRequest):
+async def chat(request: PromptRequest, current_user: User = Depends(get_current_user)):
     return StreamingResponse(stream_response(request.prompt), media_type="text/plain")
