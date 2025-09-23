@@ -22,7 +22,7 @@ async def login(data: OAuth2PasswordRequestForm = Depends()) -> Any:
     if not usuario:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail='E-mail ou senha estão incorretos. Certifique-se de que sua conta está ativa'
+            detail='E-mail ou senha estão incorretos.'
         )
 
     return {
