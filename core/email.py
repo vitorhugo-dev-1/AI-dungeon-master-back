@@ -1,4 +1,4 @@
-from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+from fastapi_mail import FastMail, MessageSchema
 from core.config import settings
 
 async def send_verification_email(email: str, token: str):

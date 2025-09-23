@@ -1,6 +1,5 @@
 from typing import List
 from decouple import config
-from pydantic import AnyHttpUrl
 from pydantic_settings import BaseSettings
 from fastapi_mail import ConnectionConfig
 
