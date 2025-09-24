@@ -40,7 +40,7 @@ class UserService:
             raise HTTPException(status_code=400, detail="Usuário não encontrado ou já verificado")
         await user.update({"$set": {"is_verified": True}})
         
-        return {"msg": f"Email {email} verificado com sucesso!"}
+        return {"msg": f"Seu e-mail foi verificado com sucesso! Você já pode fechar essa janela."}
 
     @staticmethod
     async def get_user_by_id(id: UUID) -> Optional[User]:
