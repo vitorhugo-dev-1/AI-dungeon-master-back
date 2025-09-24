@@ -6,7 +6,7 @@ from datetime import datetime
 
 class User(Document):
     user_id: UUID = Field(default_factory=uuid4)
-    username: Annotated[str, Indexed(str, unique=True)]
+    username: str
     email: Annotated[str, Indexed(EmailStr, unique=True)]
     hashed_password: str
     is_verified: bool = False
