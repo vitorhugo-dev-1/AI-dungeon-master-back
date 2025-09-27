@@ -38,14 +38,15 @@ class PersonagemUpdate(BaseModel):
 
 class PersonagemDetail(BaseModel):
     personagem_id: UUID
-    nome:   str
-    classe: str
-    raca:   str
-    level:  int
-    xp:     int
-    atr:    Atributos
-    stats:  Stats
-    itens:  list[str]
+    nome:    str
+    classe:  str
+    raca:    str
+    origens: str
+    level:   int
+    xp:      int
+    atr:     Atributos
+    stats:   Stats
+    itens:   list[str]
     disabled: bool
     created_at: datetime
     updated_at: datetime
