@@ -46,7 +46,7 @@ class Personagem(Document):
     disabled: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    owner: Link[User]
+    owner: UUID
 
     def __repr__(self) -> str:
         return f"<Personagem {self.nome}>"

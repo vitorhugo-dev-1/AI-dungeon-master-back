@@ -8,7 +8,7 @@ from uuid import UUID
 class PersonagemService:
     @staticmethod
     async def list_personagem(user: User) -> List[Personagem]:
-        personagens = await Personagem.find(Personagem.owner.id == user.id).to_list()
+        personagens = await Personagem.find(Personagem.owner == user.user_id).to_list()
         return personagens
 
     @staticmethod
@@ -17,7 +17,7 @@ class PersonagemService:
             **data.model_dump(),
             stats=Stats.from_atributos(data.atr),
             itens=[],
-            owner=user,
+            owner=user.user_id,
         )
         return await personagem.insert()
 
@@ -25,7 +25,7 @@ class PersonagemService:
     async def detail_personagem(user: User, personagem_id: UUID):
         personagem = await Personagem.find_one(
             Personagem.personagem_id == personagem_id,
-            Personagem.owner.id == user.id
+            Personagem.owner == user.user_id
         )
         return personagem
 

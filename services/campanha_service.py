@@ -9,15 +9,16 @@ from uuid import UUID
 class CampanhaService:
     @staticmethod
     async def list_campanha(user: User) -> List[Campanha]:
-        campanhas = await Campanha.find(Campanha.owner.id == user.id).to_list()
+        campanhas = await Campanha.find(Campanha.owner == user.user_id).to_list()
         return campanhas
 
     @staticmethod
     async def create_campanha(user: User, data: CampanhaCreate) -> Campanha:
+        personagem = await Personagem.find_one(Personagem.personagem_id == data.personagem_id)
         campanha = Campanha(
             **data.model_dump(),
-            personagem = await Personagem.find_one(Personagem.personagem_id == data.personagem_id),
-            owner=user,
+            personagem = personagem.personagem_id,
+            owner=user.user_id,
         )
         return await campanha.insert()
 
@@ -25,7 +26,7 @@ class CampanhaService:
     async def detail_campanha(user: User, campanha_id: UUID):
         campanha = await Campanha.find_one(
             Campanha.campanha_id == campanha_id,
-            Campanha.owner.id == user.id
+            Campanha.owner == user.user_id
         )
         return campanha
 
@@ -33,7 +34,6 @@ class CampanhaService:
     async def update_campanha(user: User, campanha_id: UUID, data: CampanhaUpdate):
         campanha = await CampanhaService.detail_campanha(user, campanha_id)
         await campanha.set(data.model_dump(exclude_unset=True))
-        print(campanha)
         return campanha
 
     @staticmethod

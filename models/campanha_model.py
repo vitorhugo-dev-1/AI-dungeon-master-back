@@ -22,12 +22,12 @@ class Campanha(Document):
     campanha_id: UUID = Field(default_factory=uuid4, unique=True)
     titulo: Annotated[str, Indexed(str)]
     descricao: str
-    personagem: Link[Personagem]
+    personagem: UUID
     events: list[Union[Resposta, Prompt]] = Field(default_factory=list)
     disabled: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    owner: Link[User]
+    owner: UUID
 
     def __repr__(self) -> str:
         return f"<Campanha {self.titulo}>"

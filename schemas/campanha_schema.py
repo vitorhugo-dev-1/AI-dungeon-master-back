@@ -47,8 +47,9 @@ class CampanhaDetail(BaseModel):
     campanha_id: UUID
     titulo: str
     descricao: str
-    personagem: Link[Personagem]
+    personagem: UUID
     events: list[Union[Resposta, Prompt]]
     disabled: bool = False
+    owner: UUID
     created_at: datetime
     updated_at: datetime
