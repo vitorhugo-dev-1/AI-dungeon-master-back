@@ -1,6 +1,7 @@
 from fastapi import HTTPException, status
 from models.user_model import User
 from models.personagem_model import Personagem, Stats
+from models.campanha_model import Campanha
 from typing import List
 from schemas.personagem_schema import PersonagemCreate, PersonagemUpdate
 from uuid import UUID
@@ -38,6 +39,8 @@ class PersonagemService:
     @staticmethod
     async def delete_personagem(user: User, personagem_id: UUID):
         personagem = await PersonagemService.detail_personagem(user, personagem_id)
+        await Campanha.find(Campanha.personagem == personagem_id).delete()
+
         if not personagem:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
