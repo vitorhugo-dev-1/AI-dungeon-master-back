@@ -40,8 +40,11 @@ async def websocket_llm(websocket: WebSocket):
             try:
                 if not campanha:
                     async for partial in WebSocketLLMService.generate_campanha(user, personagem_id=UUID(prompt)):
-                        text = partial
-                        await websocket.send_json({"campanha_id": text['campanha_id'], "text": text['text']})
+                        data = {
+                            "campanha_id": partial['campanha_id'],
+                            "text": partial['text']
+                        }
+                        await websocket.send_json(data)
             except WebSocketDisconnect:
                 print(f"Cliente {user.user_id} desconectou durante o streaming")
                 break
