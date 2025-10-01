@@ -1,9 +1,7 @@
-from beanie import Link
 from pydantic import BaseModel, Field
 from typing import Optional, Union
 from uuid import UUID
 from datetime import datetime
-from models.personagem_model import Personagem
 from schemas.personagem_schema import PersonagemUpdate
 
 class Inimigo(BaseModel):

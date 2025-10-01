@@ -1,9 +1,8 @@
-from beanie import Document, Indexed, Link, before_event, Replace, Insert
+from beanie import Document, Indexed, before_event, Replace, Insert
 from uuid import UUID, uuid4
 from pydantic import BaseModel, Field
 from typing import Annotated
 from datetime import datetime, timezone
-from models.user_model import User
 
 class Atributos(BaseModel):
     STR: int

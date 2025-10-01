@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from api.api_v1.handlers import user
 from api.api_v1.handlers import personagem
 from api.api_v1.handlers import campanha
-from api.api_v1.handlers import llm
+from api.api_v1.handlers import websocket
 from api.auth.jwt import auth_router
 
 router = APIRouter()
@@ -28,7 +28,7 @@ router.include_router(
     tags=['campanha']
 )
 router.include_router(
-    llm.llm_router,
-    prefix='/llm',
-    tags=['llm']
+    websocket.websocket_router,
+    prefix='/ws',
+    tags=['ws']
 )

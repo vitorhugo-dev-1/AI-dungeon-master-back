@@ -1,10 +1,8 @@
-from beanie import Document, Indexed, Link, before_event, Replace, Insert
+from beanie import Document, Indexed, before_event, Replace, Insert
 from uuid import UUID, uuid4
 from pydantic import BaseModel, Field
 from typing import Annotated, Any, Dict, Optional, Union
 from datetime import datetime, timezone
-from models.user_model import User
-from models.personagem_model import Personagem
 from schemas.personagem_schema import PersonagemUpdate
 
 class Resposta(BaseModel):
