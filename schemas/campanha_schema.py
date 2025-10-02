@@ -40,6 +40,7 @@ class CampanhaUpdate(BaseModel):
     descricao: Optional[str] = None
     events: Optional[list[Union[Resposta, Prompt]]] = None
     disabled: Optional[bool] = None
+    addEvent: Optional[Union[Resposta, Prompt]] = None
 
 class CampanhaDetail(BaseModel):
     campanha_id: UUID

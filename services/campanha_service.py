@@ -33,6 +33,9 @@ class CampanhaService:
     @staticmethod
     async def update_campanha(user: User, campanha_id: UUID, data: CampanhaUpdate):
         campanha = await CampanhaService.detail_campanha(user, campanha_id)
+        if (data.addEvent is not None):
+            await campanha.update({"$push": {"events": data.addEvent}})
+
         await campanha.set(data.model_dump(exclude_unset=True))
         return campanha
 

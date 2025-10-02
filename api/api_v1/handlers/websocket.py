@@ -38,8 +38,15 @@ async def websocket_llm(websocket: WebSocket):
                 continue
 
             try:
-                if not campanha:
-                    async for partial in WebSocketLLMService.generate_campanha(user, personagem_id=UUID(prompt)):
+                if campanha == '':
+                    async for partial in WebSocketLLMService.generate_campanha(user, UUID(prompt)):
+                        data = {
+                            "campanha_id": partial['campanha_id'],
+                            "text": partial['text']
+                        }
+                        await websocket.send_json(data)
+                else:
+                    async for partial in WebSocketLLMService.send_message_campanha(user, UUID(campanha), prompt):
                         data = {
                             "campanha_id": partial['campanha_id'],
                             "text": partial['text']
