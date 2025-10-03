@@ -30,15 +30,15 @@ class WebSocketLLMService:
             O personagem com quem vou jogar será {personagem.nome}, um {personagem.classe} {personagem.raca}
             com os seguintes backgrounds: {personagem.origens[0]} e {personagem.origens[1]}.
 
-            Sua resposta deve ser em formato JSON com o seguinte padrão:
+            Suas respostas devem ser SEMPRE em formato JSON com o seguinte padrão:
             {{
-                "titulo": "Titulo com menos de 51 caracteres", // Somente na sua primeira resposta
-                "descricao": "Breve sinopse com menos de 256 caracteres", // Somente na sua primeira resposta
-                "narracao": "Sua descrição inicial da aventura",
-                "sugestoes": ["Inclua de 2 a 4 sugestões sobre o que o jogador pode fazer em seguida"]
+                "titulo": "Titulo com menos de 51 caracteres", // Inclua somente na sua primeira resposta
+                "descricao": "Breve sinopse com menos de 256 caracteres", // Inclua somente na sua primeira resposta
+                "narracao": "Sua descrição inicial da aventura e respostas as minhas ações com sugestões do que fazer em seguida mas ainda dando espaço outras ações."
             }}
-            
-            Sinta-se livre para estilizar "narracao" e "sugestoes" com markdown"""
+            NOTA: Não repita a mesma quantidade de sugestões em sequência.
+
+            Sinta-se livre para estilizar "narracao" com markdown."""
 
         event = Prompt(acao=prompt)
         create_data = CampanhaCreate(
@@ -78,7 +78,7 @@ class WebSocketLLMService:
                 yield { "campanha_id": str(campanha.campanha_id), "text": response }
             else:
                 parsed = repair_json(full_text, return_objects=True, ensure_ascii=False)
-                event = Resposta(narracao=parsed['narracao'], sugestoes=parsed['sugestoes'])
+                event = Resposta(narracao=parsed['narracao'], sugestoes=[])
                 data = CampanhaUpdate(
                     titulo=parsed['titulo'],
                     descricao=parsed['descricao'],
@@ -117,7 +117,7 @@ class WebSocketLLMService:
                 yield { "campanha_id": str(campanha.campanha_id), "text": response }
             else:
                 parsed = repair_json(full_text, return_objects=True, ensure_ascii=False)
-                event = Resposta(narracao=parsed['narracao'], sugestoes=parsed['sugestoes'])
+                event = Resposta(narracao=parsed['narracao'], sugestoes=[])
                 data = CampanhaUpdate(addEvent=event)
                 await CampanhaService.update_campanha(user, campanha.campanha_id, data)
             await asyncio.sleep(0.01)
