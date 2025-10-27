@@ -15,10 +15,8 @@ auth_router = APIRouter()
 
 @auth_router.post('/login', summary='Cria Access Token e Refresh Token', response_model=TokenSchema)
 async def login(data: OAuth2PasswordRequestForm = Depends()) -> Any:
-    usuario = await UserService.authenticate(
-        email=data.username,
-        password=data.password
-    )
+    usuario = await UserService.authenticate(data.username, data.password)
+
     if not usuario:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

@@ -1,7 +1,7 @@
 from beanie import Document, Indexed
 from uuid import UUID, uuid4
 from pydantic import Field, EmailStr
-from typing import Annotated
+from typing import Annotated, Optional
 from datetime import datetime
 
 class User(Document):
@@ -10,6 +10,8 @@ class User(Document):
     email: Annotated[str, Indexed(EmailStr, unique=True)]
     hashed_password: str
     is_verified: bool = False
+    token_or_code: Annotated[str, Indexed(str, unique=True)]
+    token_or_code_expiration: datetime
 
     def __repr__(self) -> str:
         return f"<User {self.email}>"

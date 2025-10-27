@@ -12,3 +12,13 @@ async def send_verification_email(email: str, token: str):
     )
     fm = FastMail(settings.EMAIL)
     await fm.send_message(message)
+
+async def send_reset_email(email: str, code: str):
+    message = MessageSchema(
+        subject="Redefinição de senha",
+        recipients=[email],
+        body=f"Use este código para redefinir sua senha: {code}",
+        subtype="plain"
+    )
+    fm = FastMail(settings.EMAIL)
+    await fm.send_message(message)
